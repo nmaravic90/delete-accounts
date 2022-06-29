@@ -1,9 +1,6 @@
 #####################################################
-# CONN-4121389
-# Deleted hosted Accounts in BAMA 
-# Development by:
-# Nikola Maravic - end22855@adobe.com
-# Nikola Cvetanovic - end27433@adobe.com
+# Deleted Accounts
+# Development by: Nikola Maravic
 #####################################################
 
 import subprocess
@@ -33,7 +30,7 @@ from xml.etree import ElementTree
 # Global session
 SESSION = requests.Session()
 
-# Contacted BAMA function
+# Contacted function
 def contact_url(url):
 	try:
 		response = requests.get(url)
@@ -52,7 +49,7 @@ def check_url(url):
 	if (not url.endswith('/')): url += '/'
 	return url
 
-# Login on BAMA function
+# Login function
 def login(url, username, password):
 	loginParams = {'login': username, 'password': password}
 	url = check_url(url)
@@ -62,7 +59,7 @@ def login(url, username, password):
 	loginStatus = xmlLoginResponse.find('status').get('code')
 	
 	if loginStatus == 'ok':
-		print(f'\n Sucessfully logged in to BAMA with {username}\n')
+		print(f'\n Sucessfully logged with {username}\n')
 	else:
 		print('\n Invalid username or password')
 		print('\n### STATUS: Exiting program ###\n')
@@ -72,7 +69,7 @@ def login(url, username, password):
 def create_report(report_file):
 	with open(f'../{report_file}.csv', 'w', newline='') as file:
 		writer = csv.writer(file)
-		writer.writerow(['BAMA Accounts deleted report',f'Date: {date.today()}'])
+		writer.writerow(['Accounts deleted report',f'Date: {date.today()}'])
 		writer.writerow(['Accounts: ', 'Delete time in seconds:'])
 
 # Append CSV report function
@@ -179,10 +176,10 @@ def delete_account(account_file, report_file, url, username, password, disabled_
 def start():
 	print('\n### DELETE BAMA ACCOUNTS ### ')
     # Adding a parameters from the console
-	parser = argparse.ArgumentParser(description='This python program delete the BAMA accounts.')
-	parser.add_argument('-b', '--URL', required=True, help='BAMA url - example "http://bama.adobe.com"')
-	parser.add_argument('-u', '--USERNAME',  required=True, help='BAMA username - example "admin@adobe.com"')
-	parser.add_argument('-p', '--PASSWORD', required=True, help='BAMA password - example "Admin1234"')
+	parser = argparse.ArgumentParser(description='This python program delete the accounts.')
+	parser.add_argument('-b', '--URL', required=True, help='Url - example "http://account.com"')
+	parser.add_argument('-u', '--USERNAME',  required=True, help='Username - example "admin@account.com"')
+	parser.add_argument('-p', '--PASSWORD', required=True, help='Password - example "Admin1234"')
 	parser.add_argument('-a', '--ACCOUNT_IDS_FILE',  required=True, help='Name for "TXT" file with Account ID-s - example "accounts.txt"')
 	parser.add_argument('-r', '--REPORT_FILE', required=True, help='Name for "CSV" report file without extension with deleted results - example "report"')
 	parser.add_argument('-d', '--DISABLED_MONTHS', required=False, help='Accounts disabled longer than this number of months should be deleted, default is 6 months')
